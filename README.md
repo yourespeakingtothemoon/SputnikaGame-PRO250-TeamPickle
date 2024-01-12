@@ -10,3 +10,4 @@ This game is created in three days, it is definitely not clean and optimized.
 
 ## Licence
 Licenced by MIT Licence. Check [LICENCE](./LICENSE).
+You can use my dirty ass code, just don't be a jerk :(
