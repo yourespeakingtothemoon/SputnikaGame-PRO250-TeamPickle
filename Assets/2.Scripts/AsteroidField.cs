@@ -23,7 +23,7 @@ public class AsteroidField : MonoBehaviour
 			Debug.Log("owo");
 			SpawnAsteroid();
 			Asteroid.GetComponent<Rigidbody2D>().velocity = new Vector2 (-1, -1);
-			counter = 10;
+			counter = 5;
 		}
 		counter -= Time.deltaTime;
     }

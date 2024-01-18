@@ -70,7 +70,7 @@ public class Planet : MonoBehaviour
                 {
                     _isInGravityField = value;
                     CameraController.Instance.ResetCamTargetSize();
-                    if (!_calledReload && _data.spawned == 1)
+                    if (!_calledReload && _data.spawned == 0)
                     {
                         GameManager.Instance.ReloadPlanet();
                         _calledReload = true;
@@ -96,7 +96,7 @@ public class Planet : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         IsInGravityField = _gravityField.IsIn(this);
-        if (!_calledReload)
+        if (!_calledReload && _data.spawned == 0)
         {
             GameManager.Instance.ReloadPlanet();
             _calledReload = true;
@@ -112,7 +112,7 @@ public class Planet : MonoBehaviour
             if (otherPlanet._isMerging) return;
 
             // Merge
-            if (otherPlanet._data == _data)
+            if (otherPlanet._data.name == _data.name && !(otherPlanet._data.spawned == 1 && _data.spawned == 1))
             {
                 Debug.Log("Merge");
 
