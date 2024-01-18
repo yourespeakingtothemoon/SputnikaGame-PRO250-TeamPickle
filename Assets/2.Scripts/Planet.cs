@@ -20,6 +20,7 @@ public class Planet : MonoBehaviour
     [SerializeField] private float _mergeForce = 1f;
     private PlanetData _data;
     private GravityField _gravityField;
+    private GameObject _gameManager;
 
     private void Start()
     {
