@@ -12,6 +12,7 @@ public class PlanetData
     public float radius;
     public float mass;
     public int mergeScore;
+    public int spawned;
 }
 
 public class Planet : MonoBehaviour
@@ -69,7 +70,7 @@ public class Planet : MonoBehaviour
                 {
                     _isInGravityField = value;
                     CameraController.Instance.ResetCamTargetSize();
-                    if (!_calledReload)
+                    if (!_calledReload && _data.spawned == 1)
                     {
                         GameManager.Instance.ReloadPlanet();
                         _calledReload = true;
