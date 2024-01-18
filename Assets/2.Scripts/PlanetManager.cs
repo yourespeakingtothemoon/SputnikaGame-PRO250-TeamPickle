@@ -6,7 +6,8 @@ public class PlanetManager : MonoBehaviour
 {
     [Header("Planet Settings")]
     [SerializeField] private PlanetSettings _planetSettings;
-    [SerializeField] private GameObject _planetPrefab;
+	[SerializeField] private PlanetSettings _spawnedPlanetSettings;
+	[SerializeField] private GameObject _planetPrefab;
     [Header("GravityField")]
     [SerializeField] private GravityField _gravityField;
 
@@ -38,7 +39,12 @@ public class PlanetManager : MonoBehaviour
         return Instance.GetPlanetDataImpl(id);
     }
 
-    public static Planet Spawn(PlanetData data, Vector2 pos)
+	public static PlanetData GetSpawnedPlanetData(uint id)
+	{
+		return Instance.GetSpawnedPlanetDataImpl(id);
+	}
+
+	public static Planet Spawn(PlanetData data, Vector2 pos)
     {
         return Instance.SpawnImpl(data, pos);
     }
@@ -52,7 +58,11 @@ public class PlanetManager : MonoBehaviour
     {
         return _planetSettings.GetPlanetData(id);
     }
-    private Planet SpawnImpl(PlanetData data, Vector2 pos)
+	private PlanetData GetSpawnedPlanetDataImpl(uint id)
+	{
+		return _spawnedPlanetSettings.GetPlanetData(id);
+	}
+	private Planet SpawnImpl(PlanetData data, Vector2 pos)
     {
         var planet = Instantiate(_planetPrefab, pos, Quaternion.identity).GetComponent<Planet>();
         planet.SetData(data);

@@ -12,6 +12,7 @@ public class PlanetData
     public float radius;
     public float mass;
     public int mergeScore;
+    public int spawned;
 }
 
 public class Planet : MonoBehaviour
@@ -19,6 +20,7 @@ public class Planet : MonoBehaviour
     [SerializeField] private float _mergeForce = 1f;
     private PlanetData _data;
     private GravityField _gravityField;
+    private GameObject _gameManager;
 
     private void Start()
     {
@@ -69,7 +71,7 @@ public class Planet : MonoBehaviour
                 {
                     _isInGravityField = value;
                     CameraController.Instance.ResetCamTargetSize();
-                    if (!_calledReload)
+                    if (!_calledReload && _data.spawned == 0)
                     {
                         GameManager.Instance.ReloadPlanet();
                         _calledReload = true;
@@ -95,7 +97,7 @@ public class Planet : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         IsInGravityField = _gravityField.IsIn(this);
-        if (!_calledReload)
+        if (!_calledReload && _data.spawned == 0)
         {
             GameManager.Instance.ReloadPlanet();
             _calledReload = true;
@@ -111,7 +113,7 @@ public class Planet : MonoBehaviour
             if (otherPlanet._isMerging) return;
 
             // Merge
-            if (otherPlanet._data == _data)
+            if (otherPlanet._data.name == _data.name && !(otherPlanet._data.spawned == 1 && _data.spawned == 1))
             {
                 Debug.Log("Merge");
 

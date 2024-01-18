@@ -33,6 +33,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _congratsUI;
     [SerializeField] private float _gameOverUIDelay = 1f;
 
+    [Header("My Dumb Shit")]
+    [SerializeField] public int _gameMode;
+
     public bool IsGameOver => _isGameOver;
 
     private PlanetData _curPlanetData;
