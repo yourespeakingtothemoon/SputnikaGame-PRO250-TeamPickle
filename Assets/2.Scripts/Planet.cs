@@ -112,36 +112,53 @@ public class Planet : MonoBehaviour
             Planet otherPlanet = collision.gameObject.GetComponent<Planet>();
             if (otherPlanet._isMerging) return;
 
-            // Merge
-            if (otherPlanet._data.name == _data.name && !(otherPlanet._data.spawned == 1 && _data.spawned == 1))
+            if (FindObjectOfType<GameManager>()._gameMode == 0)
             {
-                Debug.Log("Merge");
+                // Merge
+                if (otherPlanet._data.name == _data.name && !(otherPlanet._data.spawned == 1 && _data.spawned == 1))
+                {
+                    Debug.Log("Merge");
 
-                ScoreManager.Instance.AddScore(GetData().mergeScore);
-                SoundManager.Instance.PlayMergeSound();
+                    ScoreManager.Instance.AddScore(GetData().mergeScore);
+                    SoundManager.Instance.PlayMergeSound();
 
-                if(PlanetManager.IsLastPlanet(GetNextData())) GameManager.Instance.SayCongrats();
+                    if (PlanetManager.IsLastPlanet(GetNextData())) GameManager.Instance.SayCongrats();
 
-                otherPlanet._isMerging = true;
-                _isMerging = true;
+                    otherPlanet._isMerging = true;
+                    _isMerging = true;
 
-                var nextPlanetData = GetNextData();
-                var nextPlanet = PlanetManager.Spawn(nextPlanetData, (transform.position + otherPlanet.transform.position)/2);
-                ApplyForceToOther((transform.position + otherPlanet.transform.position) / 2, nextPlanetData);
+                    var nextPlanetData = GetNextData();
+                    var nextPlanet = PlanetManager.Spawn(nextPlanetData, (transform.position + otherPlanet.transform.position) / 2);
+                    ApplyForceToOther((transform.position + otherPlanet.transform.position) / 2, nextPlanetData);
 
-                nextPlanet._isPlaying = true;
-                nextPlanet._calledReload = true;
+                    nextPlanet._isPlaying = true;
+                    nextPlanet._calledReload = true;
 
-                Destroy(gameObject);
-                Destroy(otherPlanet.gameObject);
+                    Destroy(gameObject);
+                    Destroy(otherPlanet.gameObject);
+                }
+                else if (!IsInGravityField)
+                {
+                    Debug.Log(gameObject.name + " called GameOver");
+                    GameManager.Instance.GameOver();
+                    return;
+                }
             }
-
-            else if (!IsInGravityField)
+            else 
             {
-                Debug.Log(gameObject.name + " called GameOver");
-                GameManager.Instance.GameOver();
-                return;
-            }
+                if (otherPlanet._data.name == _data.name && !(otherPlanet._data.spawned == 1 && _data.spawned == 1))
+                {
+					Destroy(gameObject);
+					Destroy(otherPlanet.gameObject);
+				}
+				else if (!IsInGravityField)
+				{
+					Debug.Log(gameObject.name + " called GameOver");
+					GameManager.Instance.GameOver();
+					return;
+				}
+			}
+
         }
     }
 
