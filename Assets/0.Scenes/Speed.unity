@@ -9228,7 +9228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeeb7669151771e44ba3e4379b18ca72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxStartPlanetID: 4
+  _maxStartPlanetID: 2
   _defaultSprite: {fileID: -2413806693520163455, guid: 2e0d0fe4aded42c44b4ef78647749f61, type: 3}
   _nextPlanetImg: {fileID: 1648674193}
   _gameOverUI: {fileID: 1169646165}
