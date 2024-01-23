@@ -22,6 +22,7 @@ MonoBehaviour:
     mass: 0.9817477
     mergeScore: 1
     spawned: 1
+    particles: {fileID: 773046042182045903, guid: f846c2da6d80f8f4ebb62e51b3dca58b, type: 3}
   - name: Mercury
     id: 1
     sprite: {fileID: 0}
@@ -30,6 +31,7 @@ MonoBehaviour:
     mass: 1.924225
     mergeScore: 3
     spawned: 1
+    particles: {fileID: 773046042182045903, guid: f846c2da6d80f8f4ebb62e51b3dca58b, type: 3}
   - name: Venus
     id: 2
     sprite: {fileID: 0}
@@ -38,6 +40,7 @@ MonoBehaviour:
     mass: 3.544109
     mergeScore: 6
     spawned: 1
+    particles: {fileID: 773046042182045903, guid: f846c2da6d80f8f4ebb62e51b3dca58b, type: 3}
   - name: Earth
     id: 3
     sprite: {fileID: 0}
@@ -46,6 +49,7 @@ MonoBehaviour:
     mass: 6.1359234
     mergeScore: 10
     spawned: 1
+    particles: {fileID: 0}
   - name: Mars
     id: 4
     sprite: {fileID: 0}
@@ -54,6 +58,7 @@ MonoBehaviour:
     mass: 10.053097
     mergeScore: 15
     spawned: 1
+    particles: {fileID: 0}
   - name: Uranus
     id: 5
     sprite: {fileID: 0}
@@ -62,6 +67,7 @@ MonoBehaviour:
     mass: 15.707964
     mergeScore: 21
     spawned: 1
+    particles: {fileID: 0}
   - name: Neptune
     id: 6
     sprite: {fileID: 0}
@@ -70,6 +76,7 @@ MonoBehaviour:
     mass: 23.571764
     mergeScore: 28
     spawned: 1
+    particles: {fileID: 0}
   - name: Saturn
     id: 7
     sprite: {fileID: 0}
@@ -78,6 +85,7 @@ MonoBehaviour:
     mass: 34.17464
     mergeScore: 36
     spawned: 1
+    particles: {fileID: 0}
   - name: Jupiter
     id: 8
     sprite: {fileID: 0}
@@ -86,6 +94,7 @@ MonoBehaviour:
     mass: 48.10564
     mergeScore: 45
     spawned: 1
+    particles: {fileID: 0}
   - name: Sun
     id: 9
     sprite: {fileID: 0}
@@ -94,3 +103,4 @@ MonoBehaviour:
     mass: 62.831856
     mergeScore: 55
     spawned: 1
+    particles: {fileID: 0}
