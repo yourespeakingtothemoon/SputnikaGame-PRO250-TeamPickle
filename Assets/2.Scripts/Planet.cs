@@ -13,6 +13,7 @@ public class PlanetData
     public float mass;
     public int mergeScore;
     public int spawned;
+    public GameObject particles;
 }
 
 public class Planet : MonoBehaviour
@@ -26,6 +27,10 @@ public class Planet : MonoBehaviour
     {
         _gravityField = PlanetManager.GravityField;
         IsInGravityField = _gravityField.IsIn(this);
+        if (_data.particles)
+        { 
+            Instantiate(_data.particles, gameObject.transform);
+        }
     }
 
     public void SetData(PlanetData data)
