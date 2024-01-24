@@ -36,6 +36,14 @@ public class GameManager : MonoBehaviour
     [Header("My Dumb Shit")]
     [SerializeField] public int _gameMode;
 
+    [Header("Level Points and Timer")]
+    [SerializeField] private float _defaultPoints = 100;
+    [SerializeField] private float _defaultTimer = 5;
+    [SerializeField] private float _amountToSubtractPerLevel = 0.5f;
+    [SerializeField] private AsteroidField _asteroidField;
+    public float _points = 0;
+    public float level = 0;
+
     public bool IsGameOver => _isGameOver;
 
     private PlanetData _curPlanetData;
@@ -49,6 +57,7 @@ public class GameManager : MonoBehaviour
         _curPlanetData = ChoosePlanet();
         _nextPlanetData = ChoosePlanet();
         ReloadPlanet();
+        UpdateTimer();
     }
 
     private void UpdatePlanetQueue()
@@ -112,6 +121,17 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.buildIndex);
+    }
+
+    public void AddLevel()
+    {
+        _level++;
+        UpdateTimer();
+    }
+
+    public void UpdateTimer()
+    {
+        _asteroidField.SpawnSpeed = _defaultTimer - (_level * _amountToSubtractPerLevel);
     }
 
     public void SayCongrats() => _sayCongrats = true;

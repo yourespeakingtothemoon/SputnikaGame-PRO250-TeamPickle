@@ -7,7 +7,7 @@ using UnityEngine;
 public class AsteroidField : MonoBehaviour
 {
 	public int MaxAsteroidSize;
-	public int SpawnSpeed;
+	public float SpawnSpeed;
 	BoxCollider2D Coll;
 	Planet Asteroid;
 	public Transform startpos;
