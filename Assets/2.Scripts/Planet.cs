@@ -22,6 +22,7 @@ public class Planet : MonoBehaviour
     private PlanetData _data;
     private GravityField _gravityField;
     private GameObject _gameManager;
+    private bool _isColliding = false;
 
     private void Start()
     {
@@ -88,11 +89,21 @@ public class Planet : MonoBehaviour
                 if (_isInGravityField)
                 {
                     _isInGravityField = value;
-
-                    if (_isPlaying && !_isMerging)
+                    if (_gameManager.GetComponent<GameManager>()._gameMode == 0)
                     {
-                        Debug.Log(gameObject.name + " called GameOver");
-                        GameManager.Instance.GameOver();
+                        if (_isPlaying && !_isMerging)
+                        {
+                            Debug.Log(gameObject.name + " called GameOver");
+                            GameManager.Instance.GameOver();
+                        }
+                    }
+                    else
+                    {
+                        if (_isPlaying && !_isMerging && _isColliding)
+                        {
+							Debug.Log(gameObject.name + " called GameOver");
+							GameManager.Instance.GameOver();
+						}
                     }
                 }
             }
@@ -113,6 +124,7 @@ public class Planet : MonoBehaviour
         if (collision.gameObject.CompareTag("Planet"))
         {
             _isPlaying = true;
+            _isColliding = true;
 
             Planet otherPlanet = collision.gameObject.GetComponent<Planet>();
             if (otherPlanet._isMerging) return;
@@ -167,7 +179,15 @@ public class Planet : MonoBehaviour
         }
     }
 
-    private void ApplyForceToOther(Vector2 center, PlanetData data)
+	private void OnCollisionExit2D(Collision2D collision)
+	{
+        if (collision.gameObject.CompareTag("Planet"))
+        {
+            _isColliding = false;
+        }
+	}
+
+	private void ApplyForceToOther(Vector2 center, PlanetData data)
     {
         var overlappingPlanets = Physics2D.OverlapCircleAll(center, data.radius);
         foreach (var planetCol in overlappingPlanets)
