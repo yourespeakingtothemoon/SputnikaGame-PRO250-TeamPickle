@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI _levelText;
+
     private static GameManager _instance;
     public static GameManager Instance
     {
@@ -37,7 +39,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] public int _gameMode;
 
     [Header("Level Points and Timer")]
-    [SerializeField] private float _defaultPoints = 100;
+   // [SerializeField] private float _defaultPoints = 100;
+   // [SerializeField] private ScoreManager _scoreManager;
     [SerializeField] private float _defaultTimer = 5;
     [SerializeField] private float _amountToSubtractPerLevel = 0.5f;
     [SerializeField] private AsteroidField _asteroidField;
@@ -127,6 +130,12 @@ public class GameManager : MonoBehaviour
     {
         _level++;
         UpdateTimer();
+        UpdateLevelText();
+    }
+
+    public void UpdateLevelText()
+    {
+        _levelText.text = _level.ToString();
     }
 
     public void UpdateTimer()
