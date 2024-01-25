@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if(_instance == null)
+            if (_instance == null)
             {
                 _instance = FindObjectOfType<GameManager>();
             }
@@ -39,13 +40,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] public int _gameMode;
 
     [Header("Level Points and Timer")]
-   // [SerializeField] private float _defaultPoints = 100;
-   // [SerializeField] private ScoreManager _scoreManager;
+    // [SerializeField] private float _defaultPoints = 100;
+    // [SerializeField] private ScoreManager _scoreManager;
     [SerializeField] private float _defaultTimer = 5;
     [SerializeField] private float _amountToSubtractPerLevel = 0.5f;
     [SerializeField] private AsteroidField _asteroidField;
-    public float _points = 0;
-    public float level = 0;
+    //public float _points = 0;
+    public int _level = 0;
 
     public bool IsGameOver => _isGameOver;
 
@@ -91,6 +92,12 @@ public class GameManager : MonoBehaviour
         _nextPlanetImg.rectTransform.sizeDelta = 50 * _nextPlanetData.radius * Vector2.one;
     }
 
+    private void Awake()
+    {
+
+        UpdateLevelText();
+    }
+
     public void ReloadPlanet()
     {
         UpdatePlanetQueue();
@@ -99,7 +106,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        if(_isGameOver) return;
+        if (_isGameOver) return;
         Debug.Log("Game Over");
 
         _isGameOver = true;
@@ -113,7 +120,7 @@ public class GameManager : MonoBehaviour
     IEnumerator TurnOnGameOverUI()
     {
         yield return new WaitForSecondsRealtime(_gameOverUIDelay);
-        if(_sayCongrats)
+        if (_sayCongrats)
             _congratsUI.SetActive(true);
         else
             _gameOverUI.SetActive(true);
