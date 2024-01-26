@@ -165,6 +165,8 @@ public class Planet : MonoBehaviour
             {
                 if (otherPlanet._data.name == _data.name && !(otherPlanet._data.spawned == 1 && _data.spawned == 1))
                 {
+					ScoreManager.Instance.AddScore(GetData().mergeScore);
+					SoundManager.Instance.PlayMergeSound();
 					Destroy(gameObject);
 					Destroy(otherPlanet.gameObject);
 				}
