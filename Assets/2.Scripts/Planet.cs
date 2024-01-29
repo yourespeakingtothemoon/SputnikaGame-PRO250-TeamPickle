@@ -19,6 +19,7 @@ public class PlanetData
 public class Planet : MonoBehaviour
 {
     [SerializeField] private float _mergeForce = 1f;
+    [SerializeField] private GameObject _particles;
     private PlanetData _data;
     private GravityField _gravityField;
     private GameObject _gameManager;
@@ -167,6 +168,7 @@ public class Planet : MonoBehaviour
                 {
 					ScoreManager.Instance.AddScore(GetData().mergeScore);
 					SoundManager.Instance.PlayMergeSound();
+                    Instantiate(_particles, (transform.position + otherPlanet.transform.position) / 2, transform.rotation);
 					Destroy(gameObject);
 					Destroy(otherPlanet.gameObject);
 				}
