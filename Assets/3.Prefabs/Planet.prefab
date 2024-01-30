@@ -162,8 +162,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e8f00e56801e24883206cfd22323da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _planetSettings: {fileID: 11400000, guid: dd829c32b5c7c5e479fd409e027e38cf, type: 2}
   _mergeForce: 3
+  _particles: {fileID: 4779143801505689479, guid: 995b72c36433512458b4a70474e2369d, type: 3}
 --- !u!114 &4586858913654611203
 MonoBehaviour:
   m_ObjectHideFlags: 0

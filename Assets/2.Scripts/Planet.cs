@@ -12,18 +12,27 @@ public class PlanetData
     public float radius;
     public float mass;
     public int mergeScore;
+    public int spawned;
+    public GameObject particles;
 }
 
 public class Planet : MonoBehaviour
 {
     [SerializeField] private float _mergeForce = 1f;
+    [SerializeField] private GameObject _particles;
     private PlanetData _data;
     private GravityField _gravityField;
+    private GameObject _gameManager;
+    private bool _isColliding = false;
 
     private void Start()
     {
         _gravityField = PlanetManager.GravityField;
         IsInGravityField = _gravityField.IsIn(this);
+        if (_data.particles)
+        { 
+            Instantiate(_data.particles, gameObject.transform);
+        }
     }
 
     public void SetData(PlanetData data)
@@ -69,7 +78,7 @@ public class Planet : MonoBehaviour
                 {
                     _isInGravityField = value;
                     CameraController.Instance.ResetCamTargetSize();
-                    if (!_calledReload)
+                    if (!_calledReload && _data.spawned == 0)
                     {
                         GameManager.Instance.ReloadPlanet();
                         _calledReload = true;
@@ -81,11 +90,21 @@ public class Planet : MonoBehaviour
                 if (_isInGravityField)
                 {
                     _isInGravityField = value;
-
-                    if (_isPlaying && !_isMerging)
+                    if (_gameManager.GetComponent<GameManager>()._gameMode == 0)
                     {
-                        Debug.Log(gameObject.name + " called GameOver");
-                        GameManager.Instance.GameOver();
+                        if (_isPlaying && !_isMerging)
+                        {
+                            Debug.Log(gameObject.name + " called GameOver");
+                            GameManager.Instance.GameOver();
+                        }
+                    }
+                    else
+                    {
+                        if (_isPlaying && !_isMerging && _isColliding)
+                        {
+							Debug.Log(gameObject.name + " called GameOver");
+							GameManager.Instance.GameOver();
+						}
                     }
                 }
             }
@@ -95,7 +114,7 @@ public class Planet : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         IsInGravityField = _gravityField.IsIn(this);
-        if (!_calledReload)
+        if (!_calledReload && _data.spawned == 0)
         {
             GameManager.Instance.ReloadPlanet();
             _calledReload = true;
@@ -106,44 +125,73 @@ public class Planet : MonoBehaviour
         if (collision.gameObject.CompareTag("Planet"))
         {
             _isPlaying = true;
+            _isColliding = true;
 
             Planet otherPlanet = collision.gameObject.GetComponent<Planet>();
             if (otherPlanet._isMerging) return;
 
-            // Merge
-            if (otherPlanet._data == _data)
+            if (FindObjectOfType<GameManager>()._gameMode == 0)
             {
-                Debug.Log("Merge");
+                // Merge
+                if (otherPlanet._data.name == _data.name && !(otherPlanet._data.spawned == 1 && _data.spawned == 1))
+                {
+                    Debug.Log("Merge");
 
-                ScoreManager.Instance.AddScore(GetData().mergeScore);
-                SoundManager.Instance.PlayMergeSound();
+                    ScoreManager.Instance.AddScore(GetData().mergeScore);
+                    SoundManager.Instance.PlayMergeSound();
 
-                if(PlanetManager.IsLastPlanet(GetNextData())) GameManager.Instance.SayCongrats();
+                    if (PlanetManager.IsLastPlanet(GetNextData())) GameManager.Instance.SayCongrats();
 
-                otherPlanet._isMerging = true;
-                _isMerging = true;
+                    otherPlanet._isMerging = true;
+                    _isMerging = true;
 
-                var nextPlanetData = GetNextData();
-                var nextPlanet = PlanetManager.Spawn(nextPlanetData, (transform.position + otherPlanet.transform.position)/2);
-                ApplyForceToOther((transform.position + otherPlanet.transform.position) / 2, nextPlanetData);
+                    var nextPlanetData = GetNextData();
+                    var nextPlanet = PlanetManager.Spawn(nextPlanetData, (transform.position + otherPlanet.transform.position) / 2);
+                    ApplyForceToOther((transform.position + otherPlanet.transform.position) / 2, nextPlanetData);
 
-                nextPlanet._isPlaying = true;
-                nextPlanet._calledReload = true;
+                    nextPlanet._isPlaying = true;
+                    nextPlanet._calledReload = true;
 
-                Destroy(gameObject);
-                Destroy(otherPlanet.gameObject);
+                    Destroy(gameObject);
+                    Destroy(otherPlanet.gameObject);
+                }
+                else if (!IsInGravityField)
+                {
+                    Debug.Log(gameObject.name + " called GameOver");
+                    GameManager.Instance.GameOver();
+                    return;
+                }
             }
-
-            else if (!IsInGravityField)
+            else 
             {
-                Debug.Log(gameObject.name + " called GameOver");
-                GameManager.Instance.GameOver();
-                return;
-            }
+                if (otherPlanet._data.name == _data.name && !(otherPlanet._data.spawned == 1 && _data.spawned == 1))
+                {
+					ScoreManager.Instance.AddScore(GetData().mergeScore);
+					SoundManager.Instance.PlayMergeSound();
+                    Instantiate(_particles, (transform.position + otherPlanet.transform.position) / 2, transform.rotation);
+					Destroy(gameObject);
+					Destroy(otherPlanet.gameObject);
+				}
+				else if (!IsInGravityField)
+				{
+					Debug.Log(gameObject.name + " called GameOver");
+					GameManager.Instance.GameOver();
+					return;
+				}
+			}
+
         }
     }
 
-    private void ApplyForceToOther(Vector2 center, PlanetData data)
+	private void OnCollisionExit2D(Collision2D collision)
+	{
+        if (collision.gameObject.CompareTag("Planet"))
+        {
+            _isColliding = false;
+        }
+	}
+
+	private void ApplyForceToOther(Vector2 center, PlanetData data)
     {
         var overlappingPlanets = Physics2D.OverlapCircleAll(center, data.radius);
         foreach (var planetCol in overlappingPlanets)
