@@ -12,6 +12,7 @@ public class AsteroidField : MonoBehaviour
 	Planet Asteroid;
 	public Transform startpos;
 	float counter = 0;
+
 	void Start()
     {
         Coll = GetComponent<BoxCollider2D>();
