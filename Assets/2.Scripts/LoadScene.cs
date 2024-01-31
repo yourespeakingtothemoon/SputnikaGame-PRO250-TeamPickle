@@ -6,8 +6,11 @@ using UnityEngine.UI;
 
 public class LoadScene : MonoBehaviour
 {
+    // I am so sorry for this code I couldn't figure the other way :(
     [SerializeField] public string SceneName;
-    int setSpawnSpeed;    
+    [SerializeField] int setSpawnSpeedE,setMaxSizeE;    
+    [SerializeField] int setSpawnSpeedM,setMaxSizeM;    
+    [SerializeField] int setSpawnSpeedH,setMaxSizeH;    
     AsteroidField asteroidField;
 
 
@@ -18,11 +21,20 @@ public class LoadScene : MonoBehaviour
         SceneManager.LoadScene(SceneName); 
     }
 
-
-
-    public void SetDifficulty(int setSpawnSpeed, int setAsteroidSize)
+    public void SetDifficultyE()
     {
-        asteroidField.MaxAsteroidSize = setAsteroidSize;
-        asteroidField.SpawnSpeed = setSpawnSpeed;
+        asteroidField.MaxAsteroidSize = setMaxSizeE;
+        asteroidField.SpawnSpeed = setSpawnSpeedE;
+    }
+
+    public void SetDifficultyM()
+    {
+        asteroidField.MaxAsteroidSize = setMaxSizeM;
+        asteroidField.SpawnSpeed = setSpawnSpeedM;
+    }
+    public void SetDifficultyH()
+    {
+        asteroidField.MaxAsteroidSize = setMaxSizeH;
+        asteroidField.SpawnSpeed = setSpawnSpeedH;
     }
 }

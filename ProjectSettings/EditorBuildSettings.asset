@@ -8,4 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/0.Scenes/Private/main.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/0.Scenes/MainMenu_VAL.unity
+    guid: 18a5596ea49dd1248bc13a91d23b098e
+  - enabled: 1
+    path: Assets/0.Scenes/public.unity
+    guid: b7a27bf7dc4c3ae4fba6e589bf3f071f
+  - enabled: 1
+    path: Assets/0.Scenes/Speed.unity
+    guid: f6cedde686ba41f46a0098300a27e616
   m_configObjects: {}
