@@ -142,12 +142,18 @@ public class GameManager : MonoBehaviour
 
     public void UpdateLevelText()
     {
-        _levelText.text = _level.ToString();
+        if (_gameMode == 1)
+        { 
+            _levelText.text = _level.ToString();
+        }
     }
 
     public void UpdateTimer()
     {
-        _asteroidField.SpawnSpeed = _defaultTimer - (_level * _amountToSubtractPerLevel);
+		if (_gameMode == 1)
+		{
+		    _asteroidField.SpawnSpeed = _defaultTimer - (_level * _amountToSubtractPerLevel);
+		}
     }
 
     public void SayCongrats() => _sayCongrats = true;
